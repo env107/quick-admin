@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container" id="app-base">
+    <div class="app-container">
         <!-- 基本布局 -->
         <Layout >
             <Header :style = "{background:'#373d41'}">
@@ -36,33 +36,39 @@
             <Layout >
                 <!-- 侧边栏目 -->
                 <Sider hide-trigger >
-                    <Menu 
-                        :active-name="navigation.active" 
-                        :theme="navigation.navTheme" 
-                        width="auto" 
-                        :open-names="navigation.collapse"
-                        v-for="(nav,index) in navigation.nav" 
-                        :key="index"
-                        @on-select="changeNav"
-                    >
-                        <Submenu :name="index" >
+                    <Menu active-name="1-2" :theme="navTheme" width="auto" :open-names="['1']">
+                        <Submenu name="1">
                             <template slot="title">
-                                <Icon :type="nav.iron"></Icon>
-                                {{ nav.title }}
+                                <Icon type="ios-navigate"></Icon>
+                                Item 1
                             </template>
-                            <MenuItem :name="index + '-' + nindex" v-for="(child,nindex) in nav.child" :key="nindex" >
-                                <router-link tag="div" :to = "{path:child.url == ''?'/':child.url}">
-                                    {{ child.title }}
-                                </router-link>
-                            </MenuItem>
+                            <MenuItem name="1-1">Option 1</MenuItem>
+                            <MenuItem name="1-2">Option 2</MenuItem>
+                            <MenuItem name="1-3">Option 3</MenuItem>
+                        </Submenu>
+                        <Submenu name="2">
+                            <template slot="title">
+                                <Icon type="ios-keypad"></Icon>
+                                Item 2
+                            </template>
+                            <MenuItem name="2-1">Option 1</MenuItem>
+                            <MenuItem name="2-2">Option 2</MenuItem>
+                        </Submenu>
+                        <Submenu name="3">
+                            <template slot="title">
+                                <Icon type="ios-analytics"></Icon>
+                                Item 3
+                            </template>
+                            <MenuItem name="3-1">Option 1</MenuItem>
+                            <MenuItem name="3-2">Option 2</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px',height:'100%'}">
                     <Breadcrumb :style="{margin: '24px 0'}">
-                        <BreadcrumbItem v-for="(bread,index) in getBread" :key="index">
-                            {{ bread }}
-                        </BreadcrumbItem>
+                        <BreadcrumbItem>Home</BreadcrumbItem>
+                        <BreadcrumbItem>Components</BreadcrumbItem>
+                        <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{padding: '24px', background: '#fff'}">
                         <router-view></router-view>
@@ -75,46 +81,16 @@
 
 <script>
 import qTag from "@/components/qTag";
-import navigation from "@/navigation.js";
 export default {
     name:'app-base',
     data:function(){
-        
         return {
-           navigation
+            navTheme:'dark'
         }
         
-    },
-    mounted:function(){
-        this.setBreadText();
     },
     components:{
         qTag
-    },
-    methods:{
-        setBreadText : function(){
-            let navigation = this.navigation;
-            let bread =  this.navigation.active.split("-");
-            let title = navigation.nav[bread[0]].title;
-            navigation.breadText = [];
-            navigation.breadText.push(title);
-            let subtitle = '';
-            if(navigation.nav[bread[0]].child.length > 0){
-                subtitle =  navigation.nav[bread[0]].child[bread[1]].title;
-                 navigation.breadText.push(subtitle);
-            }
-  
-        },
-        changeNav:function(path){
-            this.navigation.active = path;
-            this.setBreadText();
-        }
-    },
-    computed:{
-        getBread:function(){
-            return this.navigation.breadText;
-            
-        }
     }
 }
 </script>
