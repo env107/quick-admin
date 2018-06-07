@@ -11,15 +11,15 @@ export default {
             child:[
                 {
                     title:"商品订单管理",
-                    url:"/info"
+                    url:"/order"
                 },
                 {
                     title:"智能售货机购买订单",
-                    url:"/"
+                    url:"/mac"
                 },
                 {
                     title:"会员充值订单",
-                    url:"/info"
+                    url:"/recharge"
                 }
             ]
         }, 
@@ -34,14 +34,14 @@ export default {
                 },
                 {
                     title:"增加会员",
-                    url:"/"
+                    url:"/addMember"
                 },
             ]
         },
         {
             title:"碎片管理",
             iron:"ios-navigate",
-            url:"/datalist",
+            url:"/info",
 
         }, 
     ],

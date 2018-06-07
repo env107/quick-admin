@@ -1,13 +1,14 @@
 <template>
-    <div class="info-container">
-
+    <div id="app">  
         info
     </div>
 </template>
 
 <script>
+import AppBase from '@/components/app-base';
 export default {
-    name:"info"
+    name:"info",
+    components:{ AppBase }
 }
 </script>
 

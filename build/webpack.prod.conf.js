@@ -145,7 +145,7 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-var pages = utils.getEntry('./src/module/*/*.html');
+var pages = utils.getEntry('./src/module/*/**.html');
 
 for (var pathname in pages) {
   // 配置生成的html文件，定义路径等
@@ -157,7 +157,7 @@ for (var pathname in pages) {
     chunksSortMode: 'dependency'
   };
 
-  if (pathname in module.exports.entry) {
+  if (pathname in webpackConfig.entry) {
     conf.chunks = ['manifest', 'vendor', pathname];
     conf.hash = true;
   }

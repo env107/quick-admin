@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container" id="app-base">
+    <div class="app-base">
         <!-- 基本布局 -->
         <Layout >
             <Header :style = "{background:'#373d41'}">
@@ -11,7 +11,6 @@
                             v-if="navigation.mode == 'horizontal'"
                             :active-name="navigation.active" 
                             :theme="navigation.navTheme" 
-                            width="auto" 
                             :style = "{background:'#373d41'}"
                             @on-select="changeNav"
                             :mode="navigation.mode"
@@ -32,7 +31,9 @@
                             <!-- 没有子菜单 -->
                             <MenuItem :name="index"  v-for="(nav,index) in navigation.nav" :key="index" v-if="!nav.hasOwnProperty('child')" >
                                 <Icon :type="nav.iron"></Icon>
-                                {{ nav.title }}
+                                <router-link tag="span" :to = "{path:nav.url == ''?'/':nav.url}">
+                                    {{ nav.title }}
+                                 </router-link>
                             </MenuItem>
                         </Menu>    
 
@@ -60,11 +61,7 @@
                         @on-select="changeNav"
                         :mode="navigation.mode"
                     >
-                        <!-- 没有子菜单 -->
-                        <MenuItem :name="index" v-for="(nav,index) in navigation.nav" :key="index"  v-if="!nav.hasOwnProperty('child')">
-                            <Icon :type="nav.iron"></Icon>
-                            {{ nav.title }}
-                        </MenuItem> 
+                        
                         <!-- 包含子菜单       -->
                         <Submenu :name="index" v-for="(nav,index) in navigation.nav" :key="index" v-if="nav.hasOwnProperty('child')">
                             <template slot="title">
@@ -77,6 +74,13 @@
                                 </router-link>
                             </MenuItem>
                         </Submenu>
+                        <!-- 没有子菜单 -->
+                        <MenuItem :name="index" v-for="(nav,index) in navigation.nav" :key="index"  v-if="!nav.hasOwnProperty('child')">
+                            <Icon :type="nav.iron"></Icon>
+                            <router-link tag="span" :to = "{path:nav.url == ''?'/':nav.url}">
+                                {{ nav.title }}
+                            </router-link>
+                        </MenuItem> 
                     </Menu>
                 </Sider>
                 <!-- 主要内容 -->
@@ -87,7 +91,7 @@
                         </BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{padding: '24px', background: '#fff'}">
-                        <router-view></router-view>
+                         <slot name="content"></slot>
                     </Content>
                 </Layout>
             </Layout>
@@ -154,7 +158,7 @@ export default {
 <style lang="less">
 html,
 body,
-#app {
+#app ,.appContainer{
   height: 100%;
 }
 body {
@@ -165,8 +169,9 @@ body {
   font-size: 14px;
   height: 100%;
 }
-.app-container {
+.app-container,.app-base{
   height: 100%;
+  width: 100%;
   display: flex;
 }
 .layout {

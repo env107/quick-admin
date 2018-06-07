@@ -1,11 +1,10 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div class="appContainer" id="app">
+      login
   </div>
 </template>
 
 <script>
-// import AppBase from '@/components/app-base';
 
 export default {
   name: 'App'

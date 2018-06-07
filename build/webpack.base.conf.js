@@ -10,9 +10,7 @@ function resolve (dir) {
 }
 
 var entries = utils.getEntry('./src/module/*/*.js'); // 获得入口js文件
-// entries.splice(0,0,{
-//   app:'./src/module/index/index.js'
-// });
+
 console.log(entries);
 
 module.exports = {
