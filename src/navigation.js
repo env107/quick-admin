@@ -2,7 +2,7 @@ export default {
     navTheme:'dark',
     active:"0-1", //当前活动项目
     collapse:[0], //打开折叠层
-    mode:"vertical", //vertical 垂直 //horizontal
+    mode:"horizontal", //vertical 垂直 //horizontal
     nav:[
         {
             title:"订单管理",

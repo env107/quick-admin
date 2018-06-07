@@ -6,19 +6,19 @@
                 <div class="app-header-container">
                     <div class="app-header-title">App数据管理平台</div>
                     <div class="app-header-center">
-                        <!-- 下拉菜单 -->
-                         <Menu 
+                        <!-- 顶部下拉菜单 -->
+                        <Menu
                             v-if="navigation.mode == 'horizontal'"
                             :active-name="navigation.active" 
                             :theme="navigation.navTheme" 
                             width="auto" 
-                            :open-names="navigation.collapse"
-                            v-for="(nav,index) in navigation.nav" 
-                            :key="index"
+                            :style = "{background:'#373d41'}"
                             @on-select="changeNav"
                             :mode="navigation.mode"
                         >
-                            <Submenu :name="index" >
+                            
+                            <!-- 存在子菜单 -->
+                            <Submenu :name="index"  v-for="(nav,index) in navigation.nav" :key="index" v-if="nav.hasOwnProperty('child')" >
                                 <template slot="title">
                                     <Icon :type="nav.iron"></Icon>
                                     {{ nav.title }}
@@ -29,8 +29,13 @@
                                     </router-link>
                                 </MenuItem>
                             </Submenu>
-                        </Menu>
-                    
+                            <!-- 没有子菜单 -->
+                            <MenuItem :name="index"  v-for="(nav,index) in navigation.nav" :key="index" v-if="!nav.hasOwnProperty('child')" >
+                                <Icon :type="nav.iron"></Icon>
+                                {{ nav.title }}
+                            </MenuItem>
+                        </Menu>    
+
                     </div>
                     <div class="app-header-user">
                         <div class="app-user-notice">
@@ -46,25 +51,22 @@
             </Header>
             <Layout >
                 <!-- 侧边栏目 -->
-                <Sider hide-trigger >
+                <Sider hide-trigger  v-if="navigation.mode == 'vertical'">
                     <Menu 
-                        v-if="navigation.mode == 'vertical'"
                         :active-name="navigation.active" 
                         :theme="navigation.navTheme" 
                         width="auto" 
                         :open-names="navigation.collapse"
-                        v-for="(nav,index) in navigation.nav" 
-                        :key="index"
                         @on-select="changeNav"
                         :mode="navigation.mode"
                     >
                         <!-- 没有子菜单 -->
-                        <MenuItem :name="index" v-if="!nav.hasOwnProperty('child')">
+                        <MenuItem :name="index" v-for="(nav,index) in navigation.nav" :key="index"  v-if="!nav.hasOwnProperty('child')">
                             <Icon :type="nav.iron"></Icon>
-                           {{ nav.title }}
+                            {{ nav.title }}
                         </MenuItem> 
                         <!-- 包含子菜单       -->
-                        <Submenu :name="index" v-if="nav.hasOwnProperty('child')">
+                        <Submenu :name="index" v-for="(nav,index) in navigation.nav" :key="index" v-if="nav.hasOwnProperty('child')">
                             <template slot="title">
                                 <Icon :type="nav.iron"></Icon>
                                 {{ nav.title }}
@@ -77,6 +79,7 @@
                         </Submenu>
                     </Menu>
                 </Sider>
+                <!-- 主要内容 -->
                 <Layout :style="{padding: '0 24px 24px',height:'100%'}">
                     <Breadcrumb :style="{margin: '24px 0'}">
                         <BreadcrumbItem v-for="(bread,index) in getBread" :key="index">

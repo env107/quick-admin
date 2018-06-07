@@ -9,6 +9,20 @@ Vue.use(iView);
 
 Vue.config.productionTip = false
 
+
+// router.beforeEach((to, from, next) => {
+//     //判断是否包含登录信息
+//    var userinfo =  sessionStorage.getItem("userinfo");
+//    if(userinfo == undefined || userinfo == null){
+//     //  location.href = "/login";
+//      return true;
+//    }
+
+//    next();
+   
+// })
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
