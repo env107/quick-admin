@@ -7,19 +7,30 @@
                     <div class="app-header-title">App数据管理平台</div>
                     <div class="app-header-center">
                         <!-- 下拉菜单 -->
-                        <Dropdown  trigger="click" :style="{color:'#fff'}">
-                            <a href="javascript:void(0)">
-                                功能辅助菜单
-                                <Icon type="arrow-down-b"></Icon>
-                            </a>
-                            <DropdownMenu slot="list" >
-                                <DropdownItem>驴打滚</DropdownItem>
-                                <DropdownItem>炸酱面</DropdownItem>
-                                <DropdownItem disabled>豆汁儿</DropdownItem>
-                                <DropdownItem>冰糖葫芦</DropdownItem>
-                                <DropdownItem divided>北京烤鸭</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                         <Menu 
+                            v-if="navigation.mode == 'horizontal'"
+                            :active-name="navigation.active" 
+                            :theme="navigation.navTheme" 
+                            width="auto" 
+                            :open-names="navigation.collapse"
+                            v-for="(nav,index) in navigation.nav" 
+                            :key="index"
+                            @on-select="changeNav"
+                            :mode="navigation.mode"
+                        >
+                            <Submenu :name="index" >
+                                <template slot="title">
+                                    <Icon :type="nav.iron"></Icon>
+                                    {{ nav.title }}
+                                </template>
+                                <MenuItem :name="index + '-' + nindex" v-for="(child,nindex) in nav.child" :key="nindex" >
+                                    <router-link tag="div" :to = "{path:child.url == ''?'/':child.url}">
+                                        {{ child.title }}
+                                    </router-link>
+                                </MenuItem>
+                            </Submenu>
+                        </Menu>
+                    
                     </div>
                     <div class="app-header-user">
                         <div class="app-user-notice">
@@ -37,6 +48,7 @@
                 <!-- 侧边栏目 -->
                 <Sider hide-trigger >
                     <Menu 
+                        v-if="navigation.mode == 'vertical'"
                         :active-name="navigation.active" 
                         :theme="navigation.navTheme" 
                         width="auto" 
@@ -44,8 +56,15 @@
                         v-for="(nav,index) in navigation.nav" 
                         :key="index"
                         @on-select="changeNav"
+                        :mode="navigation.mode"
                     >
-                        <Submenu :name="index" >
+                        <!-- 没有子菜单 -->
+                        <MenuItem :name="index" v-if="!nav.hasOwnProperty('child')">
+                            <Icon :type="nav.iron"></Icon>
+                           {{ nav.title }}
+                        </MenuItem> 
+                        <!-- 包含子菜单       -->
+                        <Submenu :name="index" v-if="nav.hasOwnProperty('child')">
                             <template slot="title">
                                 <Icon :type="nav.iron"></Icon>
                                 {{ nav.title }}
@@ -94,15 +113,25 @@ export default {
     methods:{
         setBreadText : function(){
             let navigation = this.navigation;
-            let bread =  this.navigation.active.split("-");
+            let active = String(navigation.active);
+            let bread = [];
+
+            if(active.indexOf("-") > -1){
+                 bread =  active.split("-");
+            }else{
+                //选择主菜单连接
+                bread.push(active)
+            }
+
             let title = navigation.nav[bread[0]].title;
             navigation.breadText = [];
             navigation.breadText.push(title);
             let subtitle = '';
-            if(navigation.nav[bread[0]].child.length > 0){
+            if(navigation.nav[bread[0]].hasOwnProperty("child") && navigation.nav[bread[0]].child.length > 0){
                 subtitle =  navigation.nav[bread[0]].child[bread[1]].title;
-                 navigation.breadText.push(subtitle);
+                navigation.breadText.push(subtitle);
             }
+            
   
         },
         changeNav:function(path){

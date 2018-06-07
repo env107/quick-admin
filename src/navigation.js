@@ -1,7 +1,8 @@
 export default {
     navTheme:'dark',
-    active:"0-1",
-    collapse:[0],
+    active:"0-1", //当前活动项目
+    collapse:[0], //打开折叠层
+    mode:"vertical", //vertical 垂直 //horizontal
     nav:[
         {
             title:"订单管理",
@@ -36,6 +37,12 @@ export default {
                     url:"/"
                 },
             ]
+        },
+        {
+            title:"碎片管理",
+            iron:"ios-navigate",
+            url:"/datalist",
+
         }, 
     ],
     breadPath:[0,2],
