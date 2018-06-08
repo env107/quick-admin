@@ -12,7 +12,7 @@
 import AppBase from '@/components/app-base';
 export default {
   name: 'App',
-  components:{ AppBase }
+  components:{ AppBase },
 }
 </script>
 

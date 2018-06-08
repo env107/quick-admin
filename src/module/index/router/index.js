@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Info from '@/components/info';
 import DataList from '@/components/datalist';
 import Error from '@/components/error';
-import AppBase from '@/components/app-base';
+
 Vue.use(Router)
 
 export default new Router({
@@ -11,23 +11,23 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      component: AppBase
+      component: Info
     },
-    // {
-    //   path: '/info',
-    //   name:'info',
-    //   component:Info
-    // },
-    // {
-    //   path:"/datalist",
-    //   name:"datalist",
-    //   component:DataList
-    // },
-    // {
-    //   path:"*",
-    //   name:"error",
-    //   component:Error
-    // }
+    {
+      path: '/info',
+      name:'info',
+      component:Info
+    },
+    {
+      path:"/datalist",
+      name:"datalist",
+      component:DataList
+    },
+    {
+      path:"*",
+      name:"error",
+      component:Error
+    }
 
   ]
 })
